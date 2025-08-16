@@ -50,4 +50,4 @@ warn_return_any = true
 check_untyped_defs = true
 show_error_context = true
 exclude = ["venv"]
-]
+
