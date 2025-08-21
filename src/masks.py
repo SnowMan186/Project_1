@@ -18,3 +18,5 @@ def get_mask_account(account_number: Union[int, str]) -> str:
         raise ValueError("Неверный формат номера счёта")
 
     return f"**{acc_str[-4:]}"
+
+# Пустая строка перед EOF
