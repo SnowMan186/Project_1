@@ -15,3 +15,16 @@ def sort_by_date(transactions, ascending=False):
     )
     return sorted_transactions
 
+transactions = [
+    {'id': 1, 'state': 'EXECUTED', 'date': '2023-07-01'},
+    {'id': 2, 'state': 'CANCELED', 'date': '2023-07-02'},
+    {'id': 3, 'state': 'EXECUTED', 'date': '2023-07-03'}
+]
+
+filtered_transactions = filter_by_state(transactions)
+print(filtered_transactions)
+# Результат: [{...}, {...}] # Только выполненные транзакции
+
+sorted_transactions = sort_by_date(transactions)
+print(sorted_transactions)
+# Результат: сортируется по датам, начиная с последней
