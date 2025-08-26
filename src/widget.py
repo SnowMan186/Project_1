@@ -40,7 +40,7 @@ def get_date(iso_string: str) -> str:
 
 
 def mask_account_card(data: str) -> str:
-    """ Функция принимает строку с типом ('карта' или 'счет') и номером, возвращает замаскированный номер карты/счета. """
+    """ Функция принимает строку с типом ('карта' или 'счет') и номером, возвращает замаскированный номер карты. """
     match = re.match(r'^(карта|счет)\s+(\w+)$', data.strip())
     if not match:
         raise ValueError("Неправильный формат входных данных.")
@@ -57,7 +57,7 @@ def mask_account_card(data: str) -> str:
 
 # Тестируем функции
 try:
-    print(mask_account_card("карта 1234567890123456"))  # Результат: 1234 56** **** 3456
-    print(mask_account_card("счет 123456789012"))      # Результат: **1234
+    print(mask_account_card("карта 1234567890123456"))
+    print(mask_account_card("счет 123456789012"))
 except Exception as ex:
     print(ex)
