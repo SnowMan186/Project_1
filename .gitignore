@@ -5,4 +5,4 @@ __pycache__/
 .idea/
 
 # Исключение виртуальных сред Python
-test/
+tests/
