@@ -8,7 +8,7 @@ def get_mask_card_number(card_number: int) -> str:
         raise ValueError("Неверный формат номера карты")
 
     masked_part = "*" * 8
-    return f"{card_str[:4]} {card_str[4:6]} ** {masked_part} {card_str[-4:]}"
+    return f"{card_str[:4]} {card_str[4:6]}** **** {card_str[-4:]}"
 
 
 def get_mask_account(account_number: Union[int, str]) -> str:
@@ -16,6 +16,5 @@ def get_mask_account(account_number: Union[int, str]) -> str:
     acc_str = str(account_number)
     if len(acc_str) < 4 or not acc_str.isdigit():
         raise ValueError("Неверный формат номера счёта")
-
     return f"**{acc_str[-4:]}"
 

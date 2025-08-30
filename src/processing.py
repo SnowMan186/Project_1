@@ -7,12 +7,11 @@ def filter_by_state(transactions: List[Dict], state: str = 'EXECUTED') -> List[D
     return [t for t in transactions if t.get('state') == state]
 
 
-def sort_by_date(transactions: List[Dict], ascending: bool = False) -> List[Dict]:
-    """ Сортировка операций по дате выполнения. """
+def sort_by_date(transactions, reverse=False):
     sorted_transactions = sorted(
         transactions,
-        key=lambda x: datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%f'),
-        reverse=not ascending
+        key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'),
+        reverse=reverse
     )
     return sorted_transactions
 

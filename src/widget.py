@@ -33,10 +33,10 @@ def get_mask_account(account_number: Union[int, str]) -> str:
 def get_date(iso_string: str) -> str:
     """Преобразование строки даты из формата ISO в формат ДД.ММ.ГГГГ."""
     try:
-        dt_obj = datetime.fromisoformat(iso_string.replace('Z', '+00:00'))
+        dt_obj = datetime.fromisoformat(iso_string.replace('Z', ''))
         return dt_obj.strftime('%d.%m.%Y')
-    except ValueError as e:
-        raise ValueError(f"Ошибка преобразования даты: {e}")
+    except ValueError:
+        raise ValueError("Ошибка преобразования даты")
 
 
 def mask_account_card(data: str) -> str:
