@@ -12,8 +12,8 @@ def sort_by_date(transactions, ascending=False):
      Если True, сортируем по возрастанию дат (по умолчанию False) :return: Отсортированный список операций """
     sorted_transactions = sorted(
         transactions,
-        key=lambda x: datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%f'),
-        reverse=not ascending
+        key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'),
+        reverse=True
     )
     return sorted_transactions
 

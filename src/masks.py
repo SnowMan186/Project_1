@@ -1,4 +1,5 @@
 from typing import Union
+import re
 
 
 def get_mask_card_number(card_number: int) -> str:
@@ -11,8 +12,9 @@ def get_mask_card_number(card_number: int) -> str:
     if len(card_str) != 16 or not card_str.isdigit():
         raise ValueError("Неверный формат номера карты")
 
-    masked_part = "*" * 8
-    return f"{card_str[:4]} {card_str[4:6]} ** {masked_part} {card_str[-4:]}"
+    blocks = re.findall(r'\d{4}', card_str)
+    masked_blocks = [blocks[0], blocks[1][:2] + "**", "****", blocks[-1]]
+    return " ".join(masked_blocks)
 
 
 def get_mask_account(account_number: Union[int, str]) -> str:
@@ -26,4 +28,3 @@ def get_mask_account(account_number: Union[int, str]) -> str:
 
     return f"**{acc_str[-4:]}"
 
-# Пустая строка перед EOF

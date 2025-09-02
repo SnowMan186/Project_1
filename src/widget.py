@@ -1,5 +1,4 @@
 from typing import Union
-import re
 from datetime import datetime
 
 
@@ -8,43 +7,39 @@ def get_mask_card_number(card_number: int) -> str:
     card_str = str(card_number)
     if len(card_str) != 16 or not card_str.isdigit():
         raise ValueError("Неверный формат номера карты")
-
-    # Маска для первой части номера карты
-    first_part = card_str[:4]
-    second_part = card_str[4:6]
-    third_part = '**'
-    fourth_part = '*' * 8
-    fifth_part = card_str[-4:]
-
-    return f"{first_part} {second_part}{third_part} {fourth_part} {fifth_part}"
+    return f"{card_str[:4]} {card_str[4:6]}** **** {card_str[-4:]}"
 
 
 def get_mask_account(account_number: Union[int, str]) -> str:
     """Формирует маску банковского счёта вида **XXXX."""
     acc_str = str(account_number)
     if len(acc_str) < 4 or not acc_str.isdigit():
+        print(f"invalid format: {acc_str}")
         raise ValueError("Неверный формат номера счёта")
-
-    last_four_digits = acc_str[-4:]
-    return f"**{last_four_digits}"
+    return f"**{acc_str[-4:]}"
 
 
 # Функциональность преобразования даты
 def get_date(iso_string: str) -> str:
     """Преобразование строки даты из формата ISO в формат ДД.ММ.ГГГГ."""
     try:
-        dt_obj = datetime.fromisoformat(iso_string.replace('Z', '+00:00'))
+        dt_obj = datetime.fromisoformat(iso_string)
         return dt_obj.strftime('%d.%m.%Y')
-    except ValueError as e:
-        raise ValueError(f"Ошибка преобразования даты: {e}")
+    except ValueError:
+        raise ValueError(f"Ошибка преобразования даты '{iso_string}'")
 
 
 def mask_account_card(data: str) -> str:
     """ Функция принимает строку с типом ('карта' или 'счет') и номером,
     возвращает замаскированный номер карты/счета. """
-    match = re.match(r'^(карта|счет)\s+(\w+)$', data.strip())
-    if not match:
-        raise ValueError("Неправильный формат входных данных.")
+    if data.startswith("карта"):
+        _, card_number = data.split()
+        return get_mask_card_number(int(card_number))
+    elif data.startswith("счет"):
+        _, account_number = data.split()
+        return get_mask_account(account_number)
+    else:
+        raise ValueError("Некорректный тип данных")
 
     account_type, number = match.groups()
 

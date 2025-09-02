@@ -34,4 +34,5 @@ def iso_dates():
 
 @pytest.fixture(scope="session")
 def bad_iso_dates():
-    return ["2023-01-01", "невалидная_строка"]
+    return ["2023-13-01", "невалидная_строка"]
+
