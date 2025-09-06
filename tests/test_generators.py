@@ -1,4 +1,4 @@
-import pytest 
+import pytest
 from src.generators import *
 
 @pytest.fixture(scope="module")
