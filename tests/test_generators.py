@@ -35,21 +35,33 @@ def test_transaction_descriptions(transactions, expected_descriptions):
 @pytest.mark.parametrize(
     "input_data, expected_ids",
     [
+
         ([{"id": 1, "operationAmount": {"currency": {"code": "USD"}}}], [1]),
+
+
         ([], []),
+
+
+        ([{"id": 1, "operationAmount": {"currency": {"code": "RUB"}}}], []),
+
+
         ([{"id": 1, "operationAmount": {"currency": {"code": "RUB"}}},
           {"id": 2, "operationAmount": {"currency": {"code": "USD"}}}], [2]),
+
+
         ([{"id": 1, "operationAmount": {"currency": {"code": "USD"}}},
-          {"id": 2, "operationAmount": {"currency": {"code": "USD"}}}], [1, 2]),  # Несколько транзакций одной валюты
-        ([{"id": 1, "operationAmount": {"currency": {"code": "USD"}}},
-          {"id": 2, "operationAmount": {"currency": {"code": "RUB"}}}], [1])  # Смешанные валюты
+          {"id": 2, "operationAmount": {"currency": {"code": "USD"}}}], [1, 2]),
+
+
+        ([{"id": 1, "operationAmount": {}}], []),
     ],
     ids=[
-        "single_USD_transaction",
-        "empty_input",
-        "mixed_currencies",
-        "multiple_USD_transactions",
-        "one_USD_one_other"
+        "simple_case",
+        "empty_list",
+        "no_match",
+        "partial_match",
+        "all_match",
+        "missing_key"
     ]
 )
 def test_filter_by_currency(input_data, expected_ids):
