@@ -1,0 +1,6 @@
+2025-09-21 13:20:53,021 - utils - DEBUG - Чтение файла some/path/to/file.json
+2025-09-21 13:20:53,021 - utils - INFO - Файл успешно прочитан, количество транзакций: 2
+2025-09-21 13:20:53,022 - utils - DEBUG - Чтение файла nonexistent_file.json
+2025-09-21 13:20:53,023 - utils - ERROR - Ошибка: файл "nonexistent_file.json" не найден.
+2025-09-21 13:20:53,024 - utils - DEBUG - Чтение файла invalid.json
+2025-09-21 13:20:53,024 - utils - ERROR - Ошибка: файл "invalid.json" не найден.
