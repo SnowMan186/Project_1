@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.fixture(scope="session")
 def valid_card_numbers():
     return ["1234567890123456", "4567890123456789"]
