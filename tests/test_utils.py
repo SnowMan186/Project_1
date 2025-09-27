@@ -1,6 +1,9 @@
-from unittest.mock import patch, MagicMock
-from src.utils import read_json_file
 import json
+
+from unittest.mock import MagicMock, patch
+
+from src.utils import read_json_file
+
 
 @patch('builtins.open', create=True)
 def test_read_valid_json(mock_open):

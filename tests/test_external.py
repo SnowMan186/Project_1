@@ -1,5 +1,7 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from src.external_api import convert_to_rubles
+
 
 @patch('requests.get')
 def test_convert_usd_to_rubles(mock_get):

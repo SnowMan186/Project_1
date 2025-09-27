@@ -1,5 +1,7 @@
 import pytest
+
 from src.generators import *
+
 
 @pytest.fixture(scope="module")
 def sample_transactions():
