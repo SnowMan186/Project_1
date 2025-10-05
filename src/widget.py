@@ -30,18 +30,14 @@ def get_date(iso_string: str) -> str:
 
 
 def mask_account_card(data: str) -> str:
-    """ Функция принимает строку с типом ('карта' или 'счет') и номером,
-    возвращает замаскированный номер карты/счета. """
-    if data.startswith("карта"):
-        _, card_number = data.split()
-        return get_mask_card_number(int(card_number))
-    elif data.startswith("счет"):
-        _, account_number = data.split()
-        return get_mask_account(account_number)
-    else:
-        raise ValueError("Некорректный тип данных")
+    """Функция принимает строку с типом ('карта' или 'счет') и номером,
+       возвращает замаскированный номер карты/счета."""
+    parts = data.strip().split()
 
-    account_type, number = match.groups()
+    if len(parts) != 2:
+        raise ValueError("Формат данных некорректен. Ожидается два элемента: тип и номер.")
+
+    account_type, number = parts
 
     if account_type.lower() == "карта":
         return get_mask_card_number(int(number))
@@ -54,6 +50,7 @@ def mask_account_card(data: str) -> str:
 # Тестируем функции
 try:
     print(mask_account_card("карта 1234567890123456"))  # Результат: 1234 56** **** 3456
-    print(mask_account_card("счет 123456789012"))      # Результат: **1234
+    print(mask_account_card("счет 123456789012"))  # Результат: **1234
 except Exception as ex:
     print(ex)
+

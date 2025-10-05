@@ -45,3 +45,4 @@ def convert_to_rubles(transaction: Dict[str, any]) -> Optional[float]:
                 return round(float(converted_amount), 2)
 
     return None
+

@@ -52,3 +52,4 @@ def test_read_excel_transactions(mock_pandas):
     assert isinstance(result, list)
     assert len(result) > 0
     assert result[0]["id"] == 1
+

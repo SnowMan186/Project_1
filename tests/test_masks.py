@@ -1,5 +1,3 @@
-# tests/test_masks.py
-
 import pytest
 
 from src.masks import get_mask_account, get_mask_card_number
@@ -11,8 +9,10 @@ invalid_card_numbers = ["12345678912345", "abcde"]
 valid_accounts = ["123456789012", "987654321098"]
 invalid_accounts = ["12345678901", "abcdef"]
 
+
 @pytest.mark.parametrize(
-     "card_number,expected_result",
+
+    "card_number,expected_result",
     [
         ("1234567890123456", "1234 56** **** 3456"),
         ("9876543210987654", "9876 54** **** 7654"),
@@ -21,16 +21,6 @@ invalid_accounts = ["12345678901", "abcdef"]
 )
 def test_get_mask_card_number(card_number, expected_result):
     assert get_mask_card_number(int(card_number)) == expected_result
-
-
-
-def test_get_mask_card_number(valid_card_numbers):
-    for card in valid_card_numbers:
-        result = get_mask_card_number(int(card))
-        assert isinstance(result, str)
-        parts = result.split()
-        assert len(parts) == 4
-        assert parts[-1].isdigit() and parts[-1].isdigit()
 
 
 @pytest.mark.parametrize("invalid_card", invalid_card_numbers)
@@ -51,7 +41,7 @@ def test_get_mask_account_invalid(invalid_account):
         get_mask_account(invalid_account)
 
 
-# Объедененный тест, проверяющий разные типы маскирования
+# Объединённый тест, проверяющий разные типы маскирования
 def test_mask_account_valid(valid_card_numbers, valid_accounts):
     inputs = [(f"карта {card}", get_mask_card_number(int(card))) for card in valid_card_numbers]
     inputs.extend([(f"счет {acc}", get_mask_account(acc)) for acc in valid_accounts])
@@ -61,6 +51,7 @@ def test_mask_account_valid(valid_card_numbers, valid_accounts):
         elif input_data.startswith("счет"):
             result = get_mask_account(input_data.split()[1])
         assert result == expected_result
+
 
 # ТЕСТЫ НА ОБРАБОТКУ НЕВЕРНЫХ ДАТ
 def test_get_date_invalid(bad_iso_dates):

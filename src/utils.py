@@ -53,3 +53,4 @@ def read_json_file(file_path: str) -> Union[List[Dict], List]:
     except json.JSONDecodeError:
         logger_utils.error(f'Ошибка: некорректный формат JSON в файле "{file_path}".')
         return []
+

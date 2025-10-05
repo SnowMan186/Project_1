@@ -17,8 +17,11 @@ def test_log_to_console_success(capsys):  # Здесь capsys берётся и�
     assert output == expected_output
 
 
+# Добавляем пустую строку перед следующим тестом
 def test_log_to_file_success(tmp_path):
     temp_file = tmp_path / "test.log"
+
+    # Правильный отступ перед применением декоратора
     @log(str(temp_file))
     def multiply(a, b):
         """Multiply two numbers."""
@@ -31,6 +34,7 @@ def test_log_to_file_success(tmp_path):
     assert content == expected_output
 
 
+# Добавляем пустую строку перед следующим тестом
 def test_log_to_console_error(capsys):  # И здесь capsys берется из pytest
     @log()
     def divide(a, b):
@@ -45,8 +49,11 @@ def test_log_to_console_error(capsys):  # И здесь capsys берется и
     assert output == expected_output
 
 
+# Добавляем пустую строку перед последним тестом
 def test_log_to_file_error(tmp_path):
     temp_file = tmp_path / "test.log"
+
+    # Правильный отступ перед применением декоратора
     @log(str(temp_file))
     def subtract(a, b):
         """Subtract one number from another."""
@@ -60,3 +67,4 @@ def test_log_to_file_error(tmp_path):
         content = f.read().strip()
     expected_output = "subtract error: ValueError. Inputs: (5, 3), {}"
     assert content == expected_output
+

@@ -25,3 +25,4 @@ def read_excel_transactions(file_path: str) -> List[Dict]:
     """
     df = pd.read_excel(file_path)
     return df.to_dict('records')
+

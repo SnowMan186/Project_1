@@ -56,3 +56,4 @@ def get_mask_account(account_number: Union[int, str]) -> str:
     result = f"**{acc_str[-4:]}"
     logger_masks.info(f'Cчёт замаскирован: {result}')
     return result
+

@@ -13,6 +13,7 @@ def test_convert_usd_to_rubles(mock_get):
     result = convert_to_rubles({'amount': '100', 'currency': 'USD'})
     assert result == 7500.00
 
+
 @patch('requests.get')
 def test_convert_eur_to_rubles(mock_get):
     """Тест конвертации евро в рубли"""
@@ -22,3 +23,4 @@ def test_convert_eur_to_rubles(mock_get):
     mock_get.return_value = mock_response
     result = convert_to_rubles({'amount': '50', 'currency': 'EUR'})
     assert result == 4250.00
+

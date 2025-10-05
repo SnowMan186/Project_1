@@ -11,6 +11,8 @@ def sample_transactions():
         {"id": 3, "description": "Оплата товаров онлайн"}
     ]
 
+
 def test_process_bank_search(sample_transactions):
     results = process_bank_search(sample_transactions, "зарплата")
     assert len(results) == 0
+
