@@ -1,6 +1,6 @@
-2025-10-05 19:40:18,005 - utils - DEBUG - Чтение файла some/path/to/file.json
-2025-10-05 19:40:18,005 - utils - INFO - Файл успешно прочитан, количество транзакций: 2
-2025-10-05 19:40:18,007 - utils - DEBUG - Чтение файла nonexistent_file.json
-2025-10-05 19:40:18,008 - utils - ERROR - Ошибка: файл "nonexistent_file.json" не найден.
-2025-10-05 19:40:18,009 - utils - DEBUG - Чтение файла invalid.json
-2025-10-05 19:40:18,010 - utils - ERROR - Ошибка: файл "invalid.json" не найден.
+2025-10-07 18:12:58,337 - utils - DEBUG - Чтение файла some/path/to/file.json
+2025-10-07 18:12:58,337 - utils - INFO - Файл успешно прочитан, количество транзакций: 2
+2025-10-07 18:12:58,339 - utils - DEBUG - Чтение файла nonexistent_file.json
+2025-10-07 18:12:58,339 - utils - ERROR - Ошибка: файл "nonexistent_file.json" не найден.
+2025-10-07 18:12:58,340 - utils - DEBUG - Чтение файла invalid.json
+2025-10-07 18:12:58,340 - utils - ERROR - Ошибка: файл "invalid.json" не найден.

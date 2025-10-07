@@ -1,22 +1,85 @@
 import json
 import csv
 import pandas as pd
+from datetime import datetime
 
 
 def load_json(filename="transactions.json"):
-    with open(filename, mode='r', encoding='utf-8') as file:
-        return json.load(file)
+    """Загрузка данных из JSON"""
+    try:
+        with open(filename, mode='r', encoding='utf-8') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        print(f"Файл {filename} не найден!")
+        return []
 
 
 def load_csv(filename="transactions.csv"):
-    with open(filename, newline='', encoding='utf-8') as file:
-        reader = csv.DictReader(file)
-        return list(reader)
+    """Загрузка данных из CSV"""
+    try:
+        with open(filename, newline='', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            return list(reader)
+    except FileNotFoundError:
+        print(f"Файл {filename} не найден!")
+        return []
 
 
 def load_xlsx(filename="transactions.xlsx"):
-    df = pd.read_excel(filename)
-    return df.to_dict('records')
+    try:
+        df = pd.read_excel(filename, engine='openpyxl')  # Добавляем аргумент engine
+        return df.to_dict('records')
+    except FileNotFoundError:
+        print(f"Файл {filename} не найден!")
+        return []
+
+
+def sort_by_date(transactions):
+    """Сортирует транзакции по дате в порядке возрастания."""
+    sorted_transactions = sorted(
+        transactions,
+        key=lambda x: datetime.strptime(x['date'], '%d.%m.%Y'),
+        reverse=False
+    )
+    return sorted_transactions
+
+
+def filter_by_currency(transactions, currency='RUB'):
+    """Отбирает только транзакции заданной валюты."""
+    filtered_transactions = [
+        t for t in transactions
+        if t.get('currency') and t['currency'] == currency
+    ]
+    return filtered_transactions
+
+
+def filter_by_description(transactions, keyword=None):
+    """Фильтрует транзакции по наличию ключевого слова в поле описания."""
+    if keyword is None or keyword.strip() == '':
+        return transactions
+    else:
+        filtered_transactions = [
+            t for t in transactions
+            if keyword.lower() in str(t.get('description')).lower()
+        ]
+        return filtered_transactions
+
+
+def display_transactions(transactions):
+    """Выводит на экран перечень всех транзакций в удобочитаемом виде."""
+    for idx, trans in enumerate(transactions):
+        date_str = trans.get('date', '')
+        description = trans.get('description', '')
+        account_from = trans.get('account_from', '')
+        account_to = trans.get('account_to', '')
+        amount = trans.get('amount', '')
+        currency = trans.get('currency', '')
+
+        print(f"{idx + 1}. Дата: {date_str}")
+        print(f"   Описание: {description}")
+        print(f"   Отправитель: {account_from}")
+        print(f"   Получатель: {account_to}")
+        print(f"   Сумма: {amount} {currency}\n")
 
 
 def main():
@@ -36,7 +99,7 @@ def main():
 
         break
 
-    # Выбор формата файла и соответствующих обработчиков
+    # Выбираем нужную функцию загрузки файлов в зависимости от выбора пользователя
     file_loaders = {
         '1': load_json,
         '2': load_csv,
@@ -44,24 +107,58 @@ def main():
     }
 
     loader_function = file_loaders.get(choice)
-    transactions = loader_function()  # Реальное чтение данных из файла
+    transactions = loader_function()  # Загружаем реальные данные из выбранного файла
 
-    valid_statuses = ["EXECUTED", "CANCELED", "PENDING"]
+    if len(transactions) == 0:
+        print("Нет данных для обработки.")
+        return
+
+    valid_statuses = ["EXECUTED", "CANCELED", "PENDING"]  # Допустимые статусы операций
 
     while True:
-        status_input = input(f"\nВведите статус ({', '.join(valid_statuses)}): ").upper().strip()
+        status_input = input(f"Введите статус ({', '.join(valid_statuses)}): ").upper().strip()
 
         if status_input in valid_statuses:
             filtered_transactions = [
                 transaction for transaction in transactions
-                if transaction['status'] == status_input
+                if transaction.get('status') == status_input
             ]
 
-            print(f"Транзакций со статусом {status_input}: {len(filtered_transactions)}")
+            print(f"Транзакций со статусом {status_input}: {len(filtered_transactions)}\n")
             break
         else:
             print(f"Статус '{status_input}' недоступен.")
 
+    # Проверяем наличие хотя бы одной транзакции
+    if len(filtered_transactions) > 0:
+        # Дополнительные фильтры и сортировка
+        need_sorting = input("Отсортировать операции по дате? Да/Нет: ").strip().lower()
+        if need_sorting.startswith('д') or need_sorting.startswith('y'):
+            sort_order = input("Отсортировать по возрастнию или по убыванию? (возрастание/убывание): ").strip().lower()
+            if sort_order.startswith('у') or sort_order.startswith('d'):  # Убывание
+                filtered_transactions.sort(key=lambda x: datetime.strptime(x['date'], '%d.%m.%Y'), reverse=True)
+            else:  # Возрастание
+                filtered_transactions.sort(key=lambda x: datetime.strptime(x['date'], '%d.%m.%Y'))
 
-if __name__ == "main":
+        ruble_filter = input("Выводить только рублевые транзакции? Да/Нет: ").strip().lower()
+        if ruble_filter.startswith('д') or ruble_filter.startswith('y'):
+            filtered_transactions = filter_by_currency(filtered_transactions, 'RUB')
+
+        keyword_filter = input(
+            "Отфильтровать список транзакций по определённому слову в описании? Да/Нет: ").strip().lower()
+        if keyword_filter.startswith('д') or keyword_filter.startswith('y'):
+            keyword = input("Введите слово для фильтрации: ")
+            filtered_transactions = filter_by_description(filtered_transactions, keyword)
+
+        # Если список пуст после фильтров
+        if len(filtered_transactions) == 0:
+            print("Не найдено ни одной транзакции, соответствующей вашим условиям фильтрации.")
+        else:
+            print("\nРаспечатываю итоговый список транзакций...")
+            display_transactions(filtered_transactions)
+    else:
+        print("Не найдено ни одной транзакции с указанным вами статусом.")
+
+
+if __name__ == "__main__":
     main()
