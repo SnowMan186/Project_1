@@ -1,6 +1,4 @@
-# tests/test_processing.py
-
-from src.processing import sort_by_date, datetime
+from src.processing import datetime, sort_by_date
 
 
 def transactions():
@@ -11,17 +9,23 @@ def transactions():
     ]
 
 
+# Обновляем функцию сортировки
+def sort_by_date(transactions, reverse=False):
+    # Преобразуем строки дат в объекты datetime для правильной сортировки
+    sorted_transactions = sorted(
+        transactions,
+        key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'),
+        reverse=reverse
+    )
+    return sorted_transactions
+
+
 def filter_by_state(transactions, state):
     filtered_transactions = []
     for transaction in transactions:
         if transaction["state"] == state:
             filtered_transactions.append(transaction)
     return filtered_transactions
-
-
-def sort_by_date(transactions, reverse=False):
-    sorted_transactions = sorted(transactions, key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'), reverse=reverse)
-    return sorted_transactions
 
 
 def test_filter_by_state(transactions):
